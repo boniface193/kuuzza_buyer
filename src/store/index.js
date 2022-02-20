@@ -1,10 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import catalog from "./modules/catalog.js"
+import catalog from "./modules/inventory.js"
+import orders from "./modules/orders.js"
 
 // initial state
 const initialState = {
-  catalog
+  catalog,
+  orders
 }
 
 //Convert object in string 
@@ -14,7 +16,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    catalog
+    catalog,
+    orders
   },
   mutations: {
     reset(state) {

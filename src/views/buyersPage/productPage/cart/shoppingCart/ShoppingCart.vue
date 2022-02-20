@@ -2,7 +2,7 @@
   <div class="shopping-cart-container">
     <v-container>
       <!-- shopping header -->
-      <div class="shopping-cart-container__header pt-sm-10 pt-16">
+      <div class="shopping-cart-container__header">
         <!-- go to previous page -->
         <a @click="$router.back()" style="text-decoration: none">
           <span class="shopping-cart-container__header__back-btn">
@@ -13,94 +13,102 @@
         <h3>Cart</h3>
       </div>
 
-      <!-- shopping cart items section -->
-      <div class="shopping-cart-container__content-section">
-        <div
-          class="shopping-cart-container__content-section__item"
-          v-for="(item, index) in cartProducts"
-          :key="index"
-        >
-          <!-- product details part -->
-          <div class="shopping-cart-container__content-section__item__left">
-            <!-- product image -->
-            <div
-              class="shopping-cart-container__content-section__item__left__img"
-            >
-              <img :src="item.product.image" alt="product image" />
-            </div>
-            <!-- product details -->
-            <div
-              class="
-                shopping-cart-container__content-section__item__left__details
-              "
-            >
-              <h4 class="mb-1">{{ item.product.name }}</h4>
-              <p class="secondary--text mb-1">
-                &#8358;{{ item.product.total_price_label }}
-              </p>
-              <p class="secondary--text mb-1">
-                Available quantity: {{ item.product.quantity }}
-              </p>
-            </div>
-          </div>
-          <!-- seller profits form section -->
-          <div class="shopping-cart-container__content-section__item__right">
-            <div class="d-flex justify-space-between mt-2">
-              <!-- remove item from add btn -->
-              <div
-                class="d-flex align-center"
-                style="cursor: pointer"
-                @click="deleteProductFromCart(item.id, index)"
-              >
-                <img class="mr-2" src="@/assets/icons/trash.svg" alt="remove" />
-                <span style="color: red" v-show="deleteLoaderIndex != index"
-                  >Remove</span
-                >
-                <v-progress-circular
-                  indeterminate
-                  color="red"
-                  class="ml-3"
-                  size="20"
-                  v-show="deleteLoader && deleteLoaderIndex == index"
-                ></v-progress-circular>
-              </div>
-              <!-- quantity section -->
-              <div class="quantiy-selection d-flex align-center">
-                <span
-                  class="decreaseQuantity background"
-                  @click="decreaseQuantity(index, item)"
-                  >-</span
-                >
-                <span class="mx-2">{{ item.quantity || 1 }}</span>
-                <span
-                  class="increaseQuantity primary"
-                  @click="increaseQuantity(index, item)"
-                  >+</span
-                >
-              </div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <p class="d-flex" style="max-width: 400px">
-              <span>Total price to be paid (&#8358;):</span>
+      <div v-show="cartProducts.length !== 0 && !loader">
+        <v-row class="mt-8">
+          <v-col
+            md="6"
+            cols=""
+            class="mb-2"
+            v-for="(item, index) in cartProducts"
+            :key="index"
+          >
+            <v-card class="elevation-0 px-4">
+              <v-row>
+                <v-col lg="4" cols="" class="text-center">
+                  <div class="imageContainer">
+                    <img :src="item.product.image" alt="product image" />
+                  </div>
+                </v-col>
+                <v-col lg="8" cols="" class="mt-5">
+                  <h4 class="mb-1">{{ item.product.name }}</h4>
+                  <p class="secondary--text mb-1">
+                    &#8358;{{ item.product.total_price_label }}
+                  </p>
+                  <p class="secondary--text mb-1">
+                    Available quantity: {{ item.product.quantity }}
+                  </p>
+                  <div
+                    class="
+                      shopping-cart-container__content-section__item__right
+                    "
+                  >
+                    <div class="d-flex justify-space-between mt-8">
+                      <div
+                        class="d-flex align-center"
+                        style="cursor: pointer"
+                        @click="deleteProductFromCart(item.id, index)"
+                      >
+                        <img
+                          class="mr-2"
+                          src="@/assets/icons/trash.svg"
+                          alt="remove"
+                        />
+                        <span
+                          style="color: red"
+                          v-show="deleteLoaderIndex != index"
+                          >Remove</span
+                        >
+                        <v-progress-circular
+                          indeterminate
+                          color="red"
+                          class="ml-3"
+                          size="20"
+                          v-show="deleteLoader && deleteLoaderIndex == index"
+                        ></v-progress-circular>
+                      </div>
 
-              <span class="primary--text ml-2">{{ overallTotalCost }}</span>
-            </p>
-            <router-link :to="{ name: 'CustomerDetailsForm' }">
-              <v-btn class="primary elevation-0" width="300">Sell</v-btn>
-            </router-link>
-          </div>
+                      <div class="quantiy-selection d-flex align-center">
+                        <span
+                          class="decreaseQuantity background"
+                          @click="decreaseQuantity(index, item)"
+                          >-</span
+                        >
+                        <span class="mx-2">{{ item.quantity || 1 }}</span>
+                        <span
+                          class="increaseQuantity primary"
+                          @click="increaseQuantity(index, item)"
+                          >+</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+        <div class="my-3 mx-3">
+          <p class="mx-3 mx-sm-0 row">
+            <span>Total price to be paid (&#8358;): </span>
+
+            <span class="primary--text"> {{ overallTotalCost }}</span>
+          </p>
+          <router-link :to="{ name: 'customerForm' }">
+            <v-btn class="primary elevation-0"
+              >Proceed to Payment</v-btn
+            >
+          </router-link>
         </div>
       </div>
 
       <!-- loader section -->
-      <!-- <div class="d-flex py-5 text-center mx-auto" v-if="loader">
-      <v-progress-circular
-        indeterminate
-        color="primary"
-        class="mx-auto"
-      ></v-progress-circular>
-    </div> -->
+      <div class="d-flex py-5 text-center mx-auto" v-if="loader">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          class="mx-auto"
+        ></v-progress-circular>
+      </div>
 
       <!-- no data -->
       <div
@@ -110,14 +118,15 @@
         <p class="mb-0 secondary--text" style="font-size: 20px">
           Your cart is empty.
         </p>
-        <router-link :to="{ name: 'InventoryHome' }">
-          <v-btn class="primary mx-auto mt-4">Continue selling</v-btn>
+        <router-link :to="{ name: 'storeCatalog' }">
+          <v-btn class="primary mx-auto mt-4">Continue Buying</v-btn>
         </router-link>
       </div>
     </v-container>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "ShoppingCart",
   data: function () {
@@ -125,20 +134,19 @@ export default {
       loader: false,
       deleteLoader: false,
       deleteLoaderIndex: -1,
-      cartProducts: [
-        {
-          product: {
-            name: "kuda",
-            image: require("@/assets/images/jean.png"),
-            quantity: 14,
-            total_price_label: 250,
-          },
-        },
-      ],
     };
   },
   created() {
     this.loader = true;
+    this.$store
+      .dispatch("orders/getCartProducts")
+      .then(() => (this.loader = false));
+  },
+  computed: {
+    ...mapState({
+      cartProducts: (state) => state.orders.productsInCart,
+      overallTotalCost: (state) => state.orders.overallTotalCost,
+    }),
   },
   methods: {
     deleteProductFromCart(productId, index) {
@@ -147,7 +155,6 @@ export default {
       this.$store
         .dispatch("orders/deleteProductFromCart", { id: productId })
         .then(() => {
-          console.log(this.cartProducts);
           this.deleteLoaderIndex = -1;
           this.deleteLoader = false;
         })
@@ -161,7 +168,6 @@ export default {
         let newProductDetails = {};
         newProductDetails.quantity = parseInt(item.quantity, 10) + 1;
         newProductDetails.product_id = item.id;
-        newProductDetails.profit_per_unit = parseInt(item.profit_per_unit, 10);
         newProductDetails.variants = item.variants;
         this.cartProducts[index].quantity = newProductDetails.quantity;
         this.$store
@@ -179,7 +185,6 @@ export default {
         let newProductDetails = {};
         newProductDetails.quantity = parseInt(item.quantity, 10) - 1;
         newProductDetails.product_id = item.id;
-        newProductDetails.profit_per_unit = parseInt(item.profit_per_unit, 10);
         newProductDetails.variants = item.variants;
         this.cartProducts[index].quantity = newProductDetails.quantity;
         this.$store
@@ -189,17 +194,21 @@ export default {
           });
       }
     },
-    updateProfit(item) {
-      let newProductDetails = {};
-      newProductDetails.quantity = parseInt(item.quantity, 10);
-      newProductDetails.product_id = item.id;
-      newProductDetails.profit_per_unit = parseInt(item.profit_per_unit, 10);
-      newProductDetails.variants = item.variants;
-      this.$store.dispatch("orders/updateCartProduct", newProductDetails);
-    },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import "./ShoppingCart.scss";
+.v-btn:not(.v-btn--round).v-size--default {
+  height: 45px;
+  width: 300px;
+  padding: 0 16px;
+}
+@media (max-width: 550px) {
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 45px;
+    width: 100%;
+    padding: 0 16px;
+  }
+}
 </style>

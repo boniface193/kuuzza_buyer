@@ -9,7 +9,8 @@
       display: flex;
       justify-content: center;
       position: sticky;
-      top: -20px;
+      padding-top: 70px;
+      padding-bottom:30px;
       z-index: 2;
       background: #fafafa;
       &__back-btn {
@@ -18,35 +19,16 @@
       }
     }
     &__content-section {
-      padding-top: 30px;
+      // padding-top: 30px;
       &__item {
-        background: #fff;
-        border-radius: 8px;
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 15px;
-        max-height: 130px;
         &__left {
-          width: 50%;
-          border-right: 1px solid #ddd;
-          padding: 17px;
-          display: flex;
-          height: 130px;
           &__img {
-            width: fit-content;
-            img {
-              width: 100px;
-              height: 100px;
-            }
           }
           &__details {
-            width: 60%;
-            padding: 7px 20px;
           }
         }
         &__right {
-          width: 50%;
-          padding: 20px;
+          width: 100%;
           .quantiy-selection {
             .decreaseQuantity {
               width: 30px;
@@ -75,20 +57,32 @@
       }
     }
   }
+  .imageContainer {
+    height: 40px;
+    img{
+      height: 158px;
+       width: 180.83px; 
+    }
+  }
   @media (max-width: 750px) {
     .shopping-cart-container {
       &__content-section {
         &__item {
           max-height: 130px;
           &__left {
-            width: 50%;
-            border-right: 1px solid #ddd;
           }
           &__right {
-            width: 50%;
+            width: 100%;
           }
         }
       }
+        .imageContainer {
+    height: 8%;
+    img{
+      height: 158px;
+       width: 180.83px; 
+    }
+  }
     }
   }
   @media (max-width: 550px) {
@@ -97,14 +91,7 @@
         &__item {
           max-height: 205px;
           &__left {
-            width: 100% !important;
-            border: none;
              &__img {
-            width: fit-content;
-            img {
-              width: 100%;
-              height: 100%;
-            }
           }
             &__right {
             width: 100% !important;

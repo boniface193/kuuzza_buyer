@@ -18,7 +18,9 @@
           src="@/assets/icons/cart-icon.svg"
           class="mr-2"
         />
-        <span class="no-of-item-in-cart pa-1">0</span>
+        <span class="no-of-item-in-cart pa-1">{{
+          totalNumberOfProductsInCart
+        }}</span>
       </div>
     </v-app-bar>
     <div class="text-center" style="margin-top: 150px" v-if="inventoryLoader">
@@ -36,9 +38,9 @@
     <div v-else class="catalog__container">
       <div class="justify-center d-flex">
         <div class="catalog__justify-header">
-          <h5 class="catalog__storeName">{{getSellerInfo.name}}</h5>
+          <h5 class="catalog__storeName">{{ getSellerInfo.name }}</h5>
           <p class="catalog__discript">
-            {{getSellerInfo.description}}
+            {{ getSellerInfo.description }}
           </p>
         </div>
       </div>
@@ -51,7 +53,7 @@
             :key="product.id"
             :product="product"
             :index="index"
-            @addToCart="addToCart(product)"
+            @addToCart="addToCart"
           />
         </div>
       </div>
@@ -93,15 +95,16 @@
 
     <!-- add to cart dialog modal -->
     <addToCartLoader
-      :addToCartLoad="addToCartLoad"
-      :productNames="productNames"
+      :product="currentProduct"
+      :addToCartDialog="addToCartDialog"
+      @closeAddToCartDialog="addToCartDialog = false"
     />
   </div>
 </template>
 
 <script>
 import ProductCard from "../productPage/productCard/ProductCard.vue";
-import addToCartLoader from "@/views/buyersPage/productPage/cart/AddToCartLoader";
+import addToCartLoader from "@/components/secondary/inventory/AddToCartModal";
 import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
 import { mapState } from "vuex";
@@ -113,14 +116,16 @@ export default {
   },
   data() {
     return {
-      addToCartLoad: false,
+      addToCartDialog: false,
       inventoryLoader: true,
       dialogMessage: "",
       statusImage: null,
       dialog: false,
       products: [],
       getSellerInfo: {},
-      productNames: [],
+      currentProduct: {
+        product: {}
+      },
     };
   },
 
@@ -128,6 +133,8 @@ export default {
     ...mapState({
       page: (state) => state.catalog.page,
       pageDetails: (state) => state.catalog.pageDetails,
+      totalNumberOfProductsInCart: (state) =>
+        state.orders.totalNumberOfProductsInCart,
     }),
   },
 
@@ -157,8 +164,7 @@ export default {
     },
     getStoreDetails() {
       this.$store.dispatch("catalog/getSellerStore").then((res) => {
-        this.getSellerInfo = res.data
-        console.log(res);
+        this.getSellerInfo = res.data;
       });
     },
     // set current page
@@ -167,9 +173,8 @@ export default {
       this.$store.commit("catalog/setPageDetails", params);
     },
     addToCart(params) {
-      this.addToCartLoad = true;
-      this.productNames.push(params.product.name);
-      this.productNames.toString();
+      this.currentProduct = params
+      this.addToCartDialog = true;
     },
   },
 };

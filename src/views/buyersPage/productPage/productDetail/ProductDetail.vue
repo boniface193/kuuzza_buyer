@@ -23,24 +23,26 @@
               src="@/assets/icons/cart-icon.svg"
               class="mr-2"
             />
-            <span class="no-of-item-in-cart pa-1">0</span>
+            <span class="no-of-item-in-cart pa-1">{{
+          totalNumberOfProductsInCart
+        }}</span>
           </div>
         </v-app-bar>
         <!-- loader container -->
-        <div class="text-center pt-16 pb-5" v-if="loader">
+        <div class="text-center loading" v-if="loader">
           <v-progress-circular
             indeterminate
             color="primary"
           ></v-progress-circular>
         </div>
-        <v-row v-else>
-          <v-col class="col-12 col-md-6 px-5 pb-5" style="padding: 90px 0">
+        <v-row v-else style="padding-top: 60px">
+          <v-col class="col-12 col-md-6 px-5 pb-5">
             <div class="image-container pt-10">
               <div class="image-container__main">
                 <img
-                  :src="productDetails.image"
-                  alt=""
-                  style="height: 100%; width: 100%"
+                  :src="selectedImg || productDetails.image"
+                  alt="product Image"
+                  width="180.83px"
                 />
                 <span class="points">{{ productDetails.points }}pts</span>
               </div>
@@ -65,7 +67,7 @@
                       @click="toggle"
                       v-on:click="selectByImage(n)"
                     >
-                      <v-img :src="selectedImg" height="80" width="90"></v-img>
+                      <v-img :src="n" height="80" width="90"></v-img>
                     </v-card>
                   </v-slide-item>
                 </v-slide-group>
@@ -76,7 +78,7 @@
           <!-- prduct details -->
           <v-col class="col-12 col-md-6 pt-md-15 px-8">
             <h2 class="mb-4">{{ productDetails.name }}</h2>
-            <p class="secondary--text mb-4" style="font-size: 14px">
+            <p class="secondary--text mb-4 mx-auto row " style="font-size: 14px">
               <span class="mr-5">&#8358;{{ productDetails.price_label }}</span
               ><span> SKU: {{ productDetails.sku }} </span
               ><span class="mx-2">|</span
@@ -100,10 +102,9 @@
                 {{ productDetails.description }}
               </p>
 
-              <!-- <div
+              <div
                 v-if="
-                  productDetails.variants.length > 0 &&
-                  productDetails.variants.length != null
+                  productDetails.variants != null
                 "
               >
                 <h4>Variants</h4>
@@ -112,9 +113,9 @@
                   v-for="(variant, index) in productDetails.variants"
                   :key="index"
                 >
-                  {{ variant.name }}: {{ variant.value }}
+                  {{ variant.name }}: <span v-for="item in variant.values.join(', ')" :key="item.id">{{ item }}</span>
                 </p>
-              </div> -->
+              </div>
 
               <h4 class="mt-4 mb-2">Shipping and returns</h4>
               <p
@@ -155,8 +156,8 @@
               </p>
 
               <v-btn
-                class="primary elevation-0"
-                width="300"
+                class="primary elevation-0 resell-container"
+                
                 :disabled="addToCartLoad"
                 @click="addToCart"
                 >Add to Cart
@@ -184,8 +185,9 @@
 
       <!-- add to cart dialog modal -->
       <addToCartLoader
-        :addToCartLoad="addToCartLoad"
-        :productNames="productNames"
+        :product="currentProduct"
+        :addToCartDialog="addToCartDialog"
+        @closeAddToCartDialog="addToCartDialog = false"
       />
     </div>
   </div>
@@ -193,7 +195,7 @@
 <script>
 import Modal from "@/components/secondary/Modal.vue";
 import failedImage from "@/assets/images/failed-img.svg";
-import addToCartLoader from "@/views/buyersPage/productPage/cart/AddToCartLoader";
+import addToCartLoader from "@/components/secondary/inventory/AddToCartModal";
 import { mapState } from "vuex";
 export default {
   name: "Product",
@@ -203,11 +205,14 @@ export default {
       model: null,
       selectedImg: "",
       addToCartLoad: false,
-      productNames: "",
+      addToCartDialog: false,
       productDetails: {
         description: "",
         min_order_quantity: "",
         variants: [],
+      },
+      currentProduct: {
+        product: {}
       },
       storeDetails: {
         refund_policy: {},
@@ -219,24 +224,6 @@ export default {
     };
   },
   computed: {
-    createLink() {
-      const params = new URLSearchParams(window.location.search);
-      const link = new URLSearchParams(
-        decodeURIComponent(window.location.search)
-      );
-      if (params.get("createLink")) {
-        const linkStatus = params.get("createLink");
-        const url = link.get("link");
-        return {
-          status: linkStatus,
-          url: url,
-        };
-      } else {
-        return {
-          status: false,
-        };
-      }
-    },
     ...mapState({
       sellerName: (state) => state.settings.profile.name,
       totalNumberOfProductsInCart: (state) =>
@@ -249,6 +236,7 @@ export default {
       .dispatch("catalog/getCatalogDetail", this.$route.params.id)
       .then((res) => {
         this.productDetails = res.data.product;
+        this.currentProduct = res.data
         this.loader = false;
         this.productDetails.other_images.push(this.productDetails.image);
       })
@@ -265,8 +253,7 @@ export default {
   },
   methods: {
     addToCart() {
-      this.addToCartLoad = true;
-      this.productNames = this.productDetails.name;
+      this.addToCartDialog = true;
     },
     selectByImage(params) {
       this.selectedImg = this.productDetails.other_images.find(
@@ -281,4 +268,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./ProductDetail.scss";
+.v-btn:not(.v-btn--round).v-size--default {
+      height: 45px;
+      width: 300px;
+      padding: 0 16px;
+    }
+@media(max-width: 550px) {
+  .v-btn:not(.v-btn--round).v-size--default {
+      height: 45px;
+      width: 100%;
+      padding: 0 16px;
+    }
+}
 </style>
