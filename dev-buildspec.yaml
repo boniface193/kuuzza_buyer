@@ -9,12 +9,5 @@ phases:
       - npm run build
   post_build:
     commands:
-      - aws s3 sync ./dist/spa s3://dev-buyers.kuuzza.store
+      - aws s3 sync ./dist s3://dev-buyers.kuuzza.store
       - aws cloudfront create-invalidation --distribution-id E3OF19T713LFQR --paths "/*";
-
-
-artifacts:
-  files:
-    - '**/*'
-  discard-paths: no
-  base-directory: ./dist/spa
