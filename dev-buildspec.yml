@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - npm install
+  build:
+    commands:
+      - quasar build
+  post_build:
+    commands:
+      - aws s3 sync ./dist/spa s3://dev-buyers.kuuzza.store
+      - aws cloudfront create-invalidation --distribution-id E3T9O8OW2P9NMY --paths "/*";
+
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: no
+  base-directory: ./dist/spa
