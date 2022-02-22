@@ -7,7 +7,9 @@ import ShoppingCart from "@/views/buyersPage/productPage/cart/shoppingCart/Shopp
 import CustomerForm from "@/views/buyersPage/productPage/CustomerDetailsForm/CustomerDetailsForm.vue"
 import CheckoutLayout from "@/layouts/CheckoutLayout.vue"
 import CheckoutDetails from "@/views/buyersPage/checkoutPages/CheckoutDetails.vue"
-import paymentDetails from "@/views/buyersPage/checkoutPages/PaymentDetails.vue"
+import PaymentDetails from "@/views/buyersPage/checkoutPages/PaymentDetails.vue"
+import PaymentSuccess from "@/views/buyersPage/checkoutPages/PaymentSuccess.vue"
+import OrderStatus from "@/views/buyersPage/checkoutPages/OrderStatus.vue"
 
 export const unAuthenticatedRoutes = {
   path: "/",
@@ -45,10 +47,19 @@ export const unAuthenticatedRoutes = {
         {
           path: "/payment-details",
           name: "paymentDetails",
-          component: paymentDetails
+          component: PaymentDetails
         }
       ]
     },
-
+    {
+      path: "payment-success",
+      name: "paymentSuccess",
+      component: PaymentSuccess
+    },
+    {
+      path: "order-status",
+      name: "orderStatus",
+      component: OrderStatus
+    }
   ]
 }

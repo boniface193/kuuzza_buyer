@@ -1,15 +1,19 @@
 <template>
   <div class="customer-details">
     <v-row class="justify-center">
-      <v-col cols="10" md="8" lg="6">
+      <v-col cols="10" md="8" lg="5">
         <div
           class="d-flex align-center justify-center"
           style="position: relative; margin-bottom: 68px"
         >
           <!-- go to previous page -->
-            <span class="back-btn" style="font-size: 25px; cursor: pointer;" @click="$router.back()">
-              <v-icon>mdi-chevron-left</v-icon>
-            </span>
+          <span
+            class="back-btn"
+            style="font-size: 25px; cursor: pointer"
+            @click="$router.back()"
+          >
+            <v-icon>mdi-chevron-left</v-icon>
+          </span>
           <!-- title -->
           <h3 class="align-self-center">Customer Details</h3>
         </div>
@@ -245,6 +249,7 @@ export default {
             this.loading = false;
             this.url = response.data.data.payment_link;
             this.$store.commit("orders/setTotalNumberOfProductsInCart", 0);
+            window.location.href = this.url
           })
           .catch((error) => {
             this.loading = false;

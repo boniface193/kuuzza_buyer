@@ -143,7 +143,7 @@
               <div class="d-flex">
                 <div><h4 class="mr-2">Delivery Status:</h4></div>
                 <div class="small-font-size primary--text">
-                  {{ orderDetails.order.delivery_status_label }}
+                  {{ orderDetails.delivery_status_label }}
                 </div>
               </div>
               <div class="d-flex">
@@ -176,7 +176,7 @@
                   {{ orderDetails.seller_name }}
                 </a>
               </div>
-              <div v-if="!orderDetails.order.delivery_confirmed" class="mt-3">
+              <div v-if="!orderDetails.delivery_confirmed" class="mt-3">
                 <p class="mb-0 mt-3">
                   Please confirm you have successfully received your order
                 </p>
@@ -185,7 +185,7 @@
                   class="primary"
                   :disabled="
                     loading2 ||
-                    orderDetails.order.delivery_status_label !== 'Delivered'
+                    orderDetails.delivery_status_label !== 'Delivered'
                   "
                   :loading="loading2"
                   @click="confirmOrder()"
@@ -361,7 +361,8 @@ export default {
       })
       .then((response) => {
         this.orderDetails = response.data.data;
-        this.getSellerDetails(this.orderDetails.seller_id);
+        console.log(this.orderDetails)
+        this.pageLoader = false;
         this.addImageToOtherImages(0);
       })
       .catch((error) => {
@@ -437,35 +438,11 @@ export default {
         }
       }, 1000);
     },
-    getSellerDetails(seller_id) {
-      this.$store
-        .dispatch("onboarding/getSellerDetails", {
-          id: seller_id,
-        })
-        .then((response) => {
-          this.sellerDetails = response.data.data;
-          this.pageLoader = false;
-        })
-        .catch((error) => {
-          this.pageLoader = false;
-          this.statusImage = failedImage;
-          this.dialog = true;
-          if (error.status == 422 || error.status == 400) {
-            this.dialogMessage = error.data.message;
-          } else if (error.status === 404) {
-            this.dialogMessage = "404 not found";
-          } else if (error.status === 500) {
-            this.dialogMessage = "Something went wrong, please try again";
-          } else if (!navigator.onLine) {
-            this.dialogMessage = "No internet connection!";
-          }
-        });
-    },
     confirmOrder() {
       this.loading2 = true;
       this.$store
         .dispatch("orders/sendConfirmOrderOTP", {
-          orderId: this.orderDetails.order.id,
+          orderId: this.orderDetails.id,
         })
         .then(() => {
           this.loading2 = false;
@@ -523,13 +500,13 @@ export default {
         this.$store
           .dispatch("orders/submitConfirmOrderOTP", {
             otp: this.otp,
-            orderId: this.orderDetails.order.id,
+            orderId: this.orderDetails.id,
           })
           .then((response) => {
             this.otpLoader = false;
             this.statusImage = successImage;
             this.dialogMessage = "Order successfully confirmed";
-            this.orderDetails.order.delivery_confirmed = response.data.data.delivery_confirmed;
+            this.orderDetails.delivery_confirmed = response.data.data.delivery_confirmed;
             this.dialog2 = false;
             this.dialog = true;
           })

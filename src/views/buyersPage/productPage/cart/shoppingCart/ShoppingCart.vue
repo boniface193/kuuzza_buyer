@@ -67,6 +67,8 @@
                         ></v-progress-circular>
                       </div>
 
+                      <div class="error--text caption pt-2">{{errMsg}}</div>
+
                       <div class="quantiy-selection d-flex align-center">
                         <span
                           class="decreaseQuantity background"
@@ -94,9 +96,7 @@
             <span class="primary--text"> {{ overallTotalCost }}</span>
           </p>
           <router-link :to="{ name: 'customerForm' }">
-            <v-btn class="primary elevation-0"
-              >Proceed to Payment</v-btn
-            >
+            <v-btn class="primary elevation-0">Proceed to Payment</v-btn>
           </router-link>
         </div>
       </div>
@@ -134,6 +134,7 @@ export default {
       loader: false,
       deleteLoader: false,
       deleteLoaderIndex: -1,
+      errMsg: ''
     };
   },
   created() {
@@ -170,6 +171,7 @@ export default {
         newProductDetails.product_id = item.id;
         newProductDetails.variants = item.variants;
         this.cartProducts[index].quantity = newProductDetails.quantity;
+        this.errMsg = ''
         this.$store
           .dispatch("orders/updateCartProduct", newProductDetails)
           .catch(() => {
@@ -192,6 +194,8 @@ export default {
           .catch(() => {
             this.cartProducts[index].quantity = newProductDetails.quantity + 1;
           });
+      } else {
+        this.errMsg = `minimum quantity is ${item.product.min_order_quantity}`;
       }
     },
   },
