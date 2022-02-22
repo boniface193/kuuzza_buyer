@@ -67,7 +67,7 @@
             class="primary"
             :loading="editLoader"
             :disabled="editLoader"
-            @click="f()"
+            @click="editOrderAddress()"
             >Update</v-btn
           >
         </div>
@@ -261,7 +261,6 @@ export default {
       this.changeOrderAddressOrDeliveryMethod();
     },
     editOrderAddress() {
-      this.$refs.addressForm.validate();
       if (this.$refs.addressForm.validate() && this.validAddress) {
         this.editLoader = true;
         this.changeOrderAddressOrDeliveryMethod();
