@@ -67,7 +67,7 @@
             class="primary"
             :loading="editLoader"
             :disabled="editLoader"
-            @click="editOrderAddress()"
+            @click="f()"
             >Update</v-btn
           >
         </div>
@@ -119,7 +119,7 @@
           :key="index"
         >
           <span>
-            <span class="font-weight-bold mr-4">{{ item.quantity }}X</span>
+            <span class="font-weight-bold mr-4">{{ item.quantity }}</span>
             <span class="secondary--text">{{ item.product.name }}</span>
           </span>
 

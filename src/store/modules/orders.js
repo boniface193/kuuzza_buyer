@@ -136,6 +136,24 @@ const actions = {
                 });
         });
     },
+    // edit order address
+    editOrderAddress(context, data) {
+        return new Promise((resolve, reject) => {
+            orderHttpClient
+                .post(`/checkout-sessions/${data.order_id}/location`, data, {
+                    headers: {
+                        gid: `gsfs1234`
+                    }
+                })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                });
+        });
+    },
 };
 
 const mutations = {
