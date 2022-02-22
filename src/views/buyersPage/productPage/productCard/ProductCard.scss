@@ -1,0 +1,149 @@
+.card-container {
+  min-width: 190px;
+  min-height: 310px;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.02);
+  }
+  .sell-now{
+    border-radius: 4px !important;
+    // height: 28px;
+    width: "162px";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px !important;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.01em;
+  }
+  .card-top {
+    width: 85%;
+    height: 190px;
+    background: #f3f5ff;
+    border-radius: 12px;
+    z-index: 1;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    .image-container {
+      width: 100%;
+      height: 130px;
+      margin: auto;
+      text-align: center;
+      img {
+        width: 85%;
+        height: 100%;
+      }
+    }
+  }
+  .card-bottom {
+    width: 100%;
+    height: 181px;
+    padding: 70px 7.5% 12px 7.5%;
+    bottom: 0;
+    background: #fff;
+    border-radius: 12px;
+    margin: 0px auto 0px auto;
+    position: absolute;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.1);
+    .v-btn:not(.v-btn--round).v-size--default {
+      height: 25px !important;
+      min-width: 100%;
+      padding: 0 16px;
+    }
+    .product-name {
+      // height: 24px;
+      font-size: 16px;
+      font-weight: bold !important;
+      overflow: hidden;
+      word-break: break-all;
+      text-overflow: ellipsis;
+      width: 100%;
+      white-space: nowrap;
+    }
+    .total_price {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        // height: 24px;
+        padding: 5px 0;
+        color: rgba(43, 43, 43, 0.6);
+      }
+  }
+  .points {
+    background: #ffba00;
+    color: #fff;
+    padding: 2px 5px;
+    position: absolute;
+    font-size: 12px;
+    top: -8px;
+    right: 0px;
+    z-index: 3;
+    border-radius: 8px;
+  }
+}
+@media (max-width: 650px) {
+  .card-container {
+    min-width: 175px;
+    min-height: 275px;
+    .card-top {
+      height: 159px;
+      .image-container {
+        height: 130px;
+        img {
+          width: 85%;
+        }
+      }
+    }
+    .card-bottom {
+      padding-top: 70px;
+    }
+  }
+}
+@media (max-width: 595px) {
+  .card-container {
+    min-width: 150px;
+    min-height: 260px;
+    &:hover {
+      transform: scale(1);
+    }
+    .card-top {
+      height: 149px;
+      .image-container {
+        height: 120px;
+        img {
+          width: 85%;
+        }
+      }
+    }
+    .card-bottom {
+      padding-top: 85px;
+      height: 182px;
+    }
+  }
+}
+@media (max-width: 365px) {
+  .card-container {
+    min-width: 135px;
+    min-height: 260px;
+    .card-top {
+      height: 139px;
+      .image-container {
+        height: 105px;
+        img {
+          width: 85%;
+          height: 104.49px;
+        }
+      }
+    }
+    .card-bottom {
+      padding-top: 85px;
+    }
+  }
+}
