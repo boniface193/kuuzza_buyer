@@ -7,7 +7,7 @@ export const searchKeyInObject = (value, object) => {
             };
         }
     }
-    return {key: null, status: false }
+    return { key: null, status: false }
 }
 export const search = (nameKey, myArray) => {
     for (let i = 0; i < myArray.length; i++) {

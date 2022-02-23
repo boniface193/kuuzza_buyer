@@ -1,5 +1,11 @@
 import orderHttpClient from "@/services/order.service.js";
 
+let getCartToken = localStorage.getItem('cartToken')
+if (!getCartToken) {
+    let cartToken = Date.now()
+    localStorage.setItem('cartToken', cartToken)
+}
+
 const state = {
     totalNumberOfProductsInCart: 0,
     productsInCart: [{ product: {} }],
@@ -15,10 +21,11 @@ const actions = {
             orderHttpClient
                 .post(`/cart-items`, data, {
                     headers: {
-                        gid: `gsfs1234`
+                        gid: localStorage.getItem('cartToken')
                     }
                 })
                 .then((response) => {
+                    console.log(localStorage.getItem('cartToken'))
                     resolve(response);
                     context.commit("doNothing");
                 })
@@ -32,7 +39,7 @@ const actions = {
             orderHttpClient
                 .get(`/cart-items`, {
                     headers: {
-                        gid: `gsfs1234`
+                        gid: localStorage.getItem('cartToken')
                     }
                 })
                 .then(response => {
@@ -51,7 +58,7 @@ const actions = {
             orderHttpClient
                 .delete(`/cart-items/${data.id}`, {
                     headers: {
-                        gid: `gsfs1234`
+                        gid: localStorage.getItem('cartToken')
                     }
                 })
                 .then(response => {
@@ -71,7 +78,7 @@ const actions = {
             orderHttpClient
                 .put(`/cart-items/${data.product_id}`, data, {
                     headers: {
-                        gid: `gsfs1234`
+                        gid: localStorage.getItem('cartToken')
                     }
                 })
                 .then(response => {
@@ -91,7 +98,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             orderHttpClient.post("/checkout-sessions", data, {
                 headers: {
-                    gid: `gsfs1234`
+                    gid: localStorage.getItem('cartToken')
                 }
             }).then(response => {
                 resolve(response);
@@ -107,7 +114,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             orderHttpClient.get(`/checkout-sessions/${data.id}`, {
                 headers: {
-                    gid: `gsfs1234`
+                    gid: localStorage.getItem('cartToken')
                 }
             }).then(response => {
                 resolve(response);
@@ -125,7 +132,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             orderHttpClient.post(`/checkout-sessions/${data.id}/pay`, {}, {
                 headers: {
-                    gid: `gsfs1234`
+                    gid: localStorage.getItem('cartToken')
                 }
             }).then(response => {
                 resolve(response);
@@ -142,7 +149,7 @@ const actions = {
             orderHttpClient
                 .post(`/checkout-sessions/${data.order_id}/location`, data, {
                     headers: {
-                        gid: `gsfs1234`
+                        gid: localStorage.getItem('cartToken')
                     }
                 })
                 .then(response => {
