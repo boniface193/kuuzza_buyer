@@ -18,9 +18,9 @@ const getters = {
 };
 
 const actions = {
-    getCatalogList(context) {
+    getCatalogList(context, data) {
         return new Promise((resolve, reject) => {
-            inventoryHttpClient.get(`catalogue/fashben/products`)
+            inventoryHttpClient.get(`catalogue/${data}/products`)
                 .then((response) => {
                     resolve(response.data)
                     context.commit("setProducts", response.data.data);
