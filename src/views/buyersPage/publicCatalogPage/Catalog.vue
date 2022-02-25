@@ -145,7 +145,7 @@ export default {
 
   methods: {
     getCatalogList() {
-      let getUrl = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'fashben';
+      let getUrl = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'denco';
       this.$store
         .dispatch("catalog/getCatalogList", getUrl)
         .then((res) => {
