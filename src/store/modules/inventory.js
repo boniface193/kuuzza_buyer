@@ -45,9 +45,9 @@ const actions = {
         })
     },
 
-    getSellerStore(context) {
+    getSellerStore(context, data) {
         return new Promise((resolve, reject) => {
-            inventoryHttpClient.get(`seller-store/fashben/guest`)
+            inventoryHttpClient.get(`seller-store/${data}/guest`)
                 .then((response) => {
                     resolve(response.data)
                 })

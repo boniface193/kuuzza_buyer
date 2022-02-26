@@ -25,7 +25,6 @@ const actions = {
                     }
                 })
                 .then((response) => {
-                    console.log(localStorage.getItem('cartToken'))
                     resolve(response);
                     context.commit("doNothing");
                 })

@@ -124,7 +124,7 @@ export default {
       products: [],
       getSellerInfo: {},
       currentProduct: {
-        product: {}
+        product: {},
       },
     };
   },
@@ -145,7 +145,9 @@ export default {
 
   methods: {
     getCatalogList() {
-      let getUrl = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'denco';
+      let getUrl = window.location.host.split(".")[1]
+        ? window.location.host.split(".")[0]
+        : "denco";
       this.$store
         .dispatch("catalog/getCatalogList", getUrl)
         .then((res) => {
@@ -164,7 +166,10 @@ export default {
         });
     },
     getStoreDetails() {
-      this.$store.dispatch("catalog/getSellerStore").then((res) => {
+      let getUrl = window.location.host.split(".")[1]
+        ? window.location.host.split(".")[0]
+        : "denco";
+      this.$store.dispatch("catalog/getSellerStore", getUrl).then((res) => {
         this.getSellerInfo = res.data;
       });
     },
@@ -174,7 +179,7 @@ export default {
       this.$store.commit("catalog/setPageDetails", params);
     },
     addToCart(params) {
-      this.currentProduct = params
+      this.currentProduct = params;
       this.addToCartDialog = true;
     },
   },
