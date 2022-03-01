@@ -361,7 +361,6 @@ export default {
       })
       .then((response) => {
         this.orderDetails = response.data.data;
-        console.log(this.orderDetails)
         this.pageLoader = false;
         this.addImageToOtherImages(0);
       })
