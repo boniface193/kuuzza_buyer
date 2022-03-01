@@ -29,11 +29,19 @@
     <!-- no data -->
     <div
       class="text-center pt-10 pb-5"
-      v-else-if="products.length == 0 && !inventoryLoader"
+      v-else-if="products.length < 0 || !inventoryLoader"
     >
-      <p class="mb-0 secondary--text" style="font-size: 20px">
-        Opps! No product found.
-      </p>
+      <div
+        class="catalog__container text-center secondary--text"
+        style="font-size: 20px"
+      >
+        <img
+          src="@/assets/images/Empty-inventory.svg"
+          width="30%"
+          height="30%"
+        />
+        <p>Opps! No product found.</p>
+      </div>
     </div>
     <div v-else class="catalog__container">
       <div class="justify-center d-flex">
@@ -155,14 +163,18 @@ export default {
           this.inventoryLoader = false;
         })
         .catch((err) => {
-          this.inventoryLoader = false;
-          this.statusImage = failedImage;
-          if (err.data.message == "") {
-            this.dialogMessage = err.statusText;
+          if (err.status == 404) {
+            this.$router.push({ name: "pageNotFound" });
           } else {
-            this.dialogMessage = err.message;
+            this.inventoryLoader = false;
+            this.statusImage = failedImage;
+            if (err.data.message == "") {
+              this.dialogMessage = err.statusText;
+            } else {
+              this.dialogMessage = err.message;
+            }
+            this.dialog = true;
           }
-          this.dialog = true;
         });
     },
     getStoreDetails() {

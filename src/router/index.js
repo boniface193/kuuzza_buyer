@@ -9,6 +9,7 @@ const routes = [
   unAuthenticatedRoutes,
   {
     path: "*",
+    name: "pageNotFound",
     component: PageNotFound
   }
 ]

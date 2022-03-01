@@ -143,7 +143,7 @@
               <div class="d-flex">
                 <div><h4 class="mr-2">Delivery Status:</h4></div>
                 <div class="small-font-size primary--text">
-                  {{ orderDetails.delivery_status_label }}
+                  {{ orderDetails.order.delivery_status }}
                 </div>
               </div>
               <div class="d-flex">
@@ -185,7 +185,7 @@
                   class="primary"
                   :disabled="
                     loading2 ||
-                    orderDetails.delivery_status_label !== 'Delivered'
+                    orderDetails.order.delivery_status !== 'Delivered'
                   "
                   :loading="loading2"
                   @click="confirmOrder()"
