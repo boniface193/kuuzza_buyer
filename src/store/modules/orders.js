@@ -160,6 +160,25 @@ const actions = {
                 });
         });
     },
+
+    // confirm order
+    sendConfirmOrderOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            orderHttpClient
+                .post(`/orders/${data.orderId}/confirm-delivery/send-otp`, data, {
+                    headers: {
+                        gid: localStorage.getItem('cartToken')
+                    }
+                })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                });
+        });
+    },
 };
 
 const mutations = {

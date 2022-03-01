@@ -29,7 +29,7 @@
     <!-- no data -->
     <div
       class="text-center pt-10 pb-5"
-      v-else-if="products.length < 0 || !inventoryLoader"
+      v-else-if="products.length < 1 && !inventoryLoader"
     >
       <div
         class="catalog__container text-center secondary--text"
