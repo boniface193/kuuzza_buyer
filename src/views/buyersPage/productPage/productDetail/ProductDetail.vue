@@ -45,6 +45,7 @@
                   width="180.83px"
                 />
                 <span class="points">{{ productDetails.points }}pts</span>
+                <p class="out-of-stock" v-show="productDetails.is_out_of_stock">Out of stock</p>
               </div>
               <!-- sliding images -->
               <v-sheet class="mx-auto" max-width="800">
@@ -73,6 +74,7 @@
                 </v-slide-group>
               </v-sheet>
               <!-- sliding images -->
+              
             </div>
           </v-col>
           <!-- prduct details -->
@@ -158,7 +160,7 @@
               <v-btn
                 class="primary elevation-0 resell-container"
                 
-                :disabled="addToCartLoad"
+                :disabled="addToCartLoad || productDetails.is_out_of_stock"
                 @click="addToCart"
                 >Add to Cart
               </v-btn>

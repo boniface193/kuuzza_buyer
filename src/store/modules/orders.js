@@ -179,6 +179,23 @@ const actions = {
                 });
         });
     },
+    submitConfirmOrderOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            orderHttpClient
+                .post(`/orders/${data.orderId}/confirm-delivery`, data, {
+                    headers: {
+                        gid: localStorage.getItem('cartToken')
+                    }
+                })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                });
+        });
+    },
 };
 
 const mutations = {

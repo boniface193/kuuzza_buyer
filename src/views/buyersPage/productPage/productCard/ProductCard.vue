@@ -24,10 +24,12 @@
           class="primary sell-now"
           @click.prevent.stop="showAddtoCartModal()"
           depressed
+          :disabled="product.product.is_out_of_stock"
           >Add to cart</v-btn
         >
       </div>
       <p class="points">{{ product.product.points }}pts</p>
+      <p class="out-of-stock" v-show="product.product.is_out_of_stock">Out of stock</p>
     </router-link>
   </div>
 </template>

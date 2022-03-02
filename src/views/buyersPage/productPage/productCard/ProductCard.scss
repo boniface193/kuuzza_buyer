@@ -87,6 +87,14 @@
     z-index: 3;
     border-radius: 8px;
   }
+  .out-of-stock {
+    color: #d90000;
+    position: absolute;
+    font-size: 12px;
+    top: -8px;
+    left: 0px;
+    z-index: 3;
+  }
 }
 @media (max-width: 650px) {
   .card-container {

@@ -32,6 +32,14 @@
       }
     }
   }
+    .out-of-stock {
+    color: #d90000;
+    position: absolute;
+    font-size: 12px;
+    top: -8px;
+    left: 0px;
+    z-index: 3;
+  }
   .image-container {
     width: 80%;
     background: #fff;
