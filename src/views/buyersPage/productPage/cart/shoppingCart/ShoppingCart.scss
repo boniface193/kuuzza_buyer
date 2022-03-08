@@ -1,0 +1,104 @@
+.shopping-cart-container {
+    position: absolute;
+    width: 100%;
+    top: -20px;
+    left: 0;
+    background: #fafafa;
+    min-height: 100%;
+    &__header {
+      display: flex;
+      justify-content: center;
+      position: sticky;
+      padding-top: 70px;
+      padding-bottom:30px;
+      z-index: 2;
+      background: #fafafa;
+      &__back-btn {
+        position: absolute;
+        left: 0px;
+      }
+    }
+    &__content-section {
+      // padding-top: 30px;
+      &__item {
+        &__left {
+          &__img {
+          }
+          &__details {
+          }
+        }
+        &__right {
+          width: 100%;
+          .quantiy-selection {
+            .decreaseQuantity {
+              width: 30px;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              font-size: 20px;
+              cursor: pointer;
+            }
+            .increaseQuantity {
+              width: 30px;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: white;
+              border-radius: 50%;
+              font-size: 20px;
+              padding-bottom: 2px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+  .imageContainer {
+    height: 40px;
+    img{
+      height: 158px;
+       width: 180.83px; 
+    }
+  }
+  @media (max-width: 750px) {
+    .shopping-cart-container {
+      &__content-section {
+        &__item {
+          max-height: 130px;
+          &__left {
+          }
+          &__right {
+            width: 100%;
+          }
+        }
+      }
+        .imageContainer {
+    height: 8%;
+    img{
+      height: 158px;
+       width: 180.83px; 
+    }
+  }
+    }
+  }
+  @media (max-width: 550px) {
+    .shopping-cart-container {
+      &__content-section {
+        &__item {
+          max-height: 205px;
+          &__left {
+             &__img {
+          }
+            &__right {
+            width: 100% !important;
+            }
+            
+          }
+        }
+      }
+    }
+  }
