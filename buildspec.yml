@@ -1,13 +1,17 @@
 version: 0.2
 env:
   variables:
-    VUE_APP_ENV: "production"
+    S3_ENVIRONMENT_BUCKET: "bm-environment-variables"
+    Project: "nova"
+    Service: "frontend"
+    ENVIRONMENT_FILE: "kuuzza-buyer"
 phases:
   pre_build:
     commands:
       - npm install
   build:
     commands:
+      - aws s3 cp s3://${S3_ENVIRONMENT_BUCKET}/${Project}/${Service}/${ENVIRONMENT_FILE} .env
       - npm run build
   post_build:
     commands:
