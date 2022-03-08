@@ -11,7 +11,7 @@ if (process.env.VUE_APP_ENV == "staging") {
     inventoryBaseUrl = "https://inventory-staging.kuuzza.com";
 }
 // set base url if environment is prodution
-if (process.env.VUE_APP_ENV == "master") {
+if (process.env.VUE_APP_ENV == "production") {
     inventoryBaseUrl = "https://inventory.kuuzza.com";
 }
 const inventoryHttpClient = axios.create({
