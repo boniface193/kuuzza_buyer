@@ -155,7 +155,7 @@ export default {
     getCatalogList() {
       let getUrl = window.location.host.split(".")[1]
         ? window.location.host.split(".")[0]
-        : "";
+        : false;
       this.$store
         .dispatch("catalog/getCatalogList", getUrl)
         .then((res) => {
@@ -180,7 +180,7 @@ export default {
     getStoreDetails() {
       let getUrl = window.location.host.split(".")[1]
         ? window.location.host.split(".")[0]
-        : "denco";
+        : false;
       this.$store.dispatch("catalog/getSellerStore", getUrl).then((res) => {
         this.getSellerInfo = res.data;
       });
